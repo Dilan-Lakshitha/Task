@@ -17,8 +17,8 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit(): void {
     this.loginForm =new FormGroup({
-      email:new FormGroup('',[Validators.required]),
-      password:new FormGroup('',[Validators.required])
+      email:new FormGroup('',[Validators.required,Validators.email]),
+      password:new FormGroup('',[Validators.required,Validators.minLength(8)])
     })
   }
 
@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
 
     if(this.loginForm.valid){
       this.authservice.login(this.loginForm.value).subscribe(result=>{
+        localStorage.setItem('access_token',result.access_token);
         if(result.success){
           console.log(result);
           alert(result.message);
